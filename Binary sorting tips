@@ -1,0 +1,5 @@
+Binary search == when aar[mid]==target, return mid; 
+lower bound / First occurrence == first element that is >= to target
+Upper Bound == first element that is strictly > than target
+Frequency == upper bound index - lower bound index
+Search insert position == normal binary search logic, just by default return low instead
