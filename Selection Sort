@@ -1,8 +1,7 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main(){
-
     int n,x;
     cout << "Print number of elements: " << endl;
     cin >> n;
@@ -14,27 +13,24 @@ int main(){
         arr.push_back(x);
     }
 
-    int comparison = 0;
-    int swaps = 0;
+    int swaps = 0; ///1) print number of swaps
+    int comparisons = 0; ///2) print number of comparisons
 
-    int numberOfSwaps;
+    int numberOfSwaps; ///3) limit number of swaps
     cout << "enter number of swaps allowed : " << endl;
     cin >> numberOfSwaps;
 
-    for(int i=0; i<=n-2; i++){
-        int minindex = i;
-
-        for(int j=i+1; j<=n-1; j++){
-            if(arr[j] < arr[minindex] && arr[j] >= 0 && arr[j]%2 == 0){ //TASK (3) sort only positive values // TASK(4)sort only positive indices(j%2==0)
-                minindex = j;
+    for(int i=0; i<n-1; i++){
+        int minIndex = i;
+        for(int j=i+1; j<n; j++){
+            if(arr[j]<arr[minIndex] && arr[j]>=0 && arr[j]%2==0){ ///4) sort only positive values ///5) sort only positive indices
+                minIndex = j;
             }
-            comparison ++;
+            comparisons++; ///2) print number of comparisons
         }
-        if(minindex != i){
-            if(swaps < numberOfSwaps){ //TASK(2) sort allowed times
-                swap(arr[i], arr[minindex]);
-                swaps++;
-            }
+        if(swaps<numberOfSwaps){ ///3) limit number of swaps
+            swap(arr[i], arr[minIndex]);
+            swaps++; ///1) print number of swaps
         }
     }
 
@@ -42,14 +38,54 @@ int main(){
     for(int i=0; i<n; i++){
         cout << arr[i] << " ";
     }
+
     cout << endl;
     cout << "comparison" << endl;
-    cout << comparison << endl;
+    cout << comparisons << endl;
     cout << "swaps" << endl;
     cout << swaps << endl;
+
+    /// Sort rows of a matrix based on the first elements
+    int rows, cols;
+    cout << "Enter rows and columns: ";
+    cin >> rows >> cols;
+
+    // Using a vector of vectors to represent the matrix
+    vector<vector<int>> matrix(rows, vector<int>(cols));
+
+    cout << "Enter matrix elements:" << endl;
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    // SELECTION SORT LOGIC (Applied to Rows)
+    for(int i = 0; i < rows - 1; i++) {
+        int minIndex = i;
+
+        for(int j = i + 1; j < rows; j++) {
+            // COMPARE: Check the first element (index 0) of the rows
+            if(matrix[j][0] < matrix[minIndex][0]) {
+                minIndex = j;
+            }
+        }
+
+        // SWAP: Swap the entire row vector
+        if(minIndex != i) {
+            swap(matrix[i], matrix[minIndex]);
+        }
+    }
+
+    cout << "Matrix sorted by first element:" << endl;
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
 
     return 0;
 }
 
 //TASK (5) Find the k-th smallest element using selection sort concepts without sorting the whole array
-//TASK (6) Sort rows of a matrix based on the first elements
