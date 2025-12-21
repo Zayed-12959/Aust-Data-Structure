@@ -1,0 +1,56 @@
+Highest element which is lower than the target
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int findFloor(vector<int>& arr, int K) {
+    int low = 0;
+    int high = arr.size() - 1;
+    int ans = -1; // Default answer if no element is <= K
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == K) {
+            // If we find the exact number, that is definitely the answer.
+            return arr[mid];
+        }
+        else if (arr[mid] < K) {
+            // It is a valid candidate (smaller than K).
+            ans = arr[mid]; // Store it
+            low = mid + 1;  // Try to find a larger one to the right
+        }
+        else {
+            // arr[mid] > K. It's too big, so the answer must be to the left.
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+int main() {
+    // 1. Setup
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    vector<int> arr(n);
+    cout << "Enter sorted elements: ";
+    for(int i = 0; i < n; i++) cin >> arr[i];
+
+    int K;
+    cout << "Enter K: ";
+    cin >> K;
+
+    // 2. Find Floor
+    int result = findFloor(arr, K);
+
+    // 3. Output
+    if (result != -1) {
+        cout << "Largest number <= " << K << " is: " << result << endl;
+    } else {
+        cout << "No number <= " << K << " found (All elements are larger)." << endl;
+    }
+
+    return 0;
+}
