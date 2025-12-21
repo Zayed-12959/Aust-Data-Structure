@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Standard Binary Search to find the correct index
+int searchInsertPosition(vector<int>& arr, int target) {
+    int low = 0;
+    int high = arr.size() - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        } else if (arr[mid] > target) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return low; // This is the index where the target SHOULD be
+}
+
+int main() {
+    int n, x;
+    cout << "Enter number of elements: ";
+    cin >> n;
+    
+    vector<int> arr;
+    cout << "Enter sorted elements: ";
+    for(int i = 0; i < n; i++) {
+        cin >> x;
+        arr.push_back(x);
+    }
+
+    int target;
+    cout << "Enter target to insert: ";
+    cin >> target;
+
+    // 1. Find the correct position
+    int index = searchInsertPosition(arr, target);
+
+    // Check if target already exists at that index
+    // (We check 'index < arr.size()' to handle cases where target is larger than all elements)
+    if (index < arr.size() && arr[index] == target) {
+        cout << "Target found at index: " << index << endl;
+    } 
+    else {
+        cout << "Target not found. Inserting at index " << index << "..." << endl;
+
+        // 2. Increase the vector size by 1 to make space
+        // We add a dummy 0 at the end, which we will overwrite during shifting
+        arr.push_back(0);
+
+        // 3. Shift elements to the right manually
+        // We start from the last element and move backwards until we reach the insertion index
+        for (int i = arr.size() - 1; i > index; i--) {
+            arr[i] = arr[i - 1];
+        }
+
+        // 4. Place the target in the empty spot
+        arr[index] = target;
+    }
+
+    cout << "Updated Array: ";
+    for (int i = 0; i < arr.size(); i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
