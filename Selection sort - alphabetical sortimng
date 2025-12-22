@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm> // For swap
+
+using namespace std;
+
+void selectionSortStrings(vector<string>& arr) {
+    int n = arr.size();
+
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+
+        // Inner loop finds the "smallest" (alphabetically first) string
+        for (int j = i + 1; j < n; j++) {
+            // C++ automatically compares strings alphabetically
+            // "Apple" < "Banana" evaluates to true
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        // Swap the found string into the correct position
+        swap(arr[i], arr[minIndex]);
+    }
+}
+
+int main() {
+    vector<string> fruits = {"Banana", "Apple", "Cherry", "Mango"};
+
+    cout << "Original: ";
+    for (const string& s : fruits) cout << s << " ";
+    cout << endl;
+
+    selectionSortStrings(fruits);
+
+    cout << "Sorted:   ";
+    for (const string& s : fruits) cout << s << " ";
+    cout << endl;
+
+    return 0;
+}
