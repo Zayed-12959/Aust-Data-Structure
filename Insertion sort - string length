@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+void insertionSortByLength(vector<string>& arr) {
+    int n = arr.size();
+
+    for (int i = 1; i < n; i++) {
+        string key = arr[i];
+        int j = i - 1;
+
+        // Compare the lengths of the strings
+        // Rule: If the word on the left is strictly LONGER than the key, 
+        // shift it to the right.
+        while (j >= 0 && arr[j].length() > key.length()) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        
+        // Place the key in its correct spot
+        arr[j + 1] = key;
+    }
+}
+
+int main() {
+    vector<string> words = {"Apple", "Pie", "Banana", "Kiwi"};
+
+    cout << "Original: ";
+    for (const string& s : words) cout << "\"" << s << "\" ";
+    cout << endl;
+
+    insertionSortByLength(words);
+
+    cout << "Sorted:   ";
+    for (const string& s : words) cout << "\"" << s << "\" ";
+    cout << endl;
+
+    return 0;
+}
