@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool binarySearch(vector<int> arr, int target){
+    int low = 0;
+    int high = arr.size()-1;
+
+    while(low<=high){
+        int mid = (low+high)/2;
+
+        if(arr[mid]==target){
+            return true;
+        }
+        else if(arr[mid]<target){
+            low = mid+1;
+        }
+        else{
+            high = mid-1;
+        }
+    }
+    return false;
+}
+
+int getLowerBound(vector<int> arr, int target){
+    int low = 0;
+    int high = arr.size()-1;
+    int ans = arr.size();
+
+    while(low<=high){
+        int mid = (low+high)/2;
+
+        if(arr[mid]>=target){
+            ans = mid;
+            high = mid-1;
+        }
+        else{
+            low = mid+1;
+        }
+    }
+    return ans;
+}
+
+int getUpperBound(vector<int> arr, int target){
+    int low = 0;
+    int high = arr.size()-1;
+    int ans = arr.size();
+
+    while(low<=high){
+        int mid = (low+high)/2;
+
+        if(arr[mid]>target){
+            ans = mid;
+            high = mid-1;
+        }
+        else{
+            low = mid+1;
+        }
+    }
+    return ans;
+}
+
+int main(){
+    int n;
+    cout << "Enter Number of Books: ";
+    cin >> n;
+
+    vector<int> books(n);
+    cout << "Sorted List of Unique Book IDs: ";
+    for(int i=0; i<n; i++){
+        cin >> books[i];
+    }
+
+    int queryID;
+    cout << "Query Book ID: ";
+    cin >> queryID;
+
+    if(binarySearch(books, queryID)){
+        cout << "Book Found" << endl;
+    }
+    else{
+        cout << "Book Not Found" << endl;
+    }
+
+    int lbIndex = getLowerBound(books, queryID);
+    cout << "Lower Bound Index: " << lbIndex << endl;
+
+    int ubIndex = getUpperBound(books, queryID);
+    cout << "Upper Bound Index: " << ubIndex << endl;
+
+    return 0;
+}
