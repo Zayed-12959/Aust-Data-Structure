@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for swap
+
+using namespace std;
+
+void sortEvensOnly(vector<int>& arr) {
+    int n = arr.size();
+
+    for (int i = 0; i < n - 1; i++) {
+        
+        // RULE 1: If the number at the current spot is ODD, 
+        // leave it alone and move to the next spot.
+        if (arr[i] % 2 != 0) {
+            continue;
+        }
+
+        // RULE 2: If we are here, arr[i] is EVEN.
+        // We need to find the smallest EVEN number in the rest of the list.
+        int minIndex = i;
+
+        for (int j = i + 1; j < n; j++) {
+            
+            // We only care about candidates that are EVEN
+            if (arr[j] % 2 == 0) {
+                // Standard selection sort comparison
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+        }
+
+        // Swap the current even number with the smallest even number found
+        swap(arr[i], arr[minIndex]);
+    }
+}
+
+int main() {
+    vector<int> arr = {10, 7, 2, 4, 9, 13, 8};
+
+    cout << "Original: ";
+    for (int x : arr) cout << x << " ";
+    cout << endl;
+
+    sortEvensOnly(arr);
+
+    cout << "Output:   ";
+    for (int x : arr) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
