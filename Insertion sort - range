@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void insertionSortRange(vector<int>& arr, int start, int end) {
+    // Basic safety check: ensure indices are valid
+    if (start < 0 || end >= arr.size() || start >= end) {
+        return;
+    }
+
+    // The outer loop picks the "key" from the second element of the range
+    for (int i = start + 1; i <= end; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        // The inner loop slides elements right
+        // CRITICAL: j must stay within the 'start' boundary
+        while (j >= start && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        
+        // Place the key in its sorted position within the window
+        arr[j + 1] = key;
+    }
+}
+
+int main() {
+    vector<int> arr = {10, 5, 2, 8, 7, 3};
+    int start = 1, end = 4;
+
+    cout << "Original Array: ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+
+    insertionSortRange(arr, start, end);
+
+    cout << "Range Sorted:   ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
