@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm> // for swap
+
+using namespace std;
+
+// 1. Define a "Blueprint" for a Student
+struct Student {
+    string name;
+    int score;
+};
+
+void sortStudents(vector<Student>& students) {
+    int n = students.size();
+
+    // Standard Selection Sort
+    for (int i = 0; i < n - 1; i++) {
+        
+        int maxIndex = i;
+
+        for (int j = i + 1; j < n; j++) {
+            // Compare the 'score' part of the struct
+            // We want Descending order (Highest score first)
+            if (students[j].score > students[maxIndex].score) {
+                maxIndex = j;
+            }
+        }
+
+        // SWAP STEP:
+        // We only need ONE swap command. 
+        // This swaps the entire Student object (both name and score move together)
+        swap(students[i], students[maxIndex]);
+    }
+}
+
+int main() {
+    // 2. Create the vector of structs
+    // Note the syntax: {{name, score}, {name, score}, ...}
+    vector<Student> students = {
+        {"Alice", 85},
+        {"Bob", 92},
+        {"Charlie", 78}
+    };
+
+    cout << "Original Order:" << endl;
+    for (const auto& s : students) {
+        cout << s.name << " (" << s.score << ") ";
+    }
+    cout << endl << endl;
+
+    sortStudents(students);
+
+    cout << "Sorted by Score (Highest First):" << endl;
+    for (int i = 0; i < students.size(); i++) {
+        cout << students[i].name << " (" << students[i].score << ")";
+        if (i < students.size() - 1) cout << ", ";
+    }
+    cout << endl;
+
+    return 0;
+}
