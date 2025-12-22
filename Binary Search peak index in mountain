@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int peakIndexInMountainArray(vector<int>& arr) {
+    int low = 0;
+    int high = arr.size() - 1;
+
+    // Note: We use 'low < high' strictly.
+    // The loop breaks when low == high, pointing to the single peak.
+    while (low < high) {
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] < arr[mid+1]) {
+            // We are on the uprising slope.
+            // Peak is definitely to the right.
+            low = mid + 1;
+        } else {
+            // We are on the falling slope OR at the peak.
+            // Peak is at 'mid' or to the left.
+            high = mid;
+        }
+    }
+    // At the end, low == high, which is the index of the peak
+    return low;
+}
+
+int main() {
+    vector<int> arr = {0, 10, 5, 2};
+
+    int peakIndex = peakIndexInMountainArray(arr);
+    
+    cout << "Peak found at index: " << peakIndex << endl;
+    cout << "Peak value: " << arr[peakIndex] << endl;
+
+    return 0;
+}
