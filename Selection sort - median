@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // for swap
+
+using namespace std;
+
+int findMedianPartially(vector<int>& arr) {
+    int n = arr.size();
+    int targetIndex = n / 2; // For size 5, this is index 2
+
+    // We only need to find the first (targetIndex + 1) smallest elements
+    for (int i = 0; i <= targetIndex; i++) {
+        int minIndex = i;
+
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        // Move the smallest found element to its correct position
+        swap(arr[i], arr[minIndex]);
+    }
+
+    // The element at the middle index is now the median
+    return arr[targetIndex];
+}
+
+int main() {
+    // Note: Array size must be odd for this simple median logic
+    vector<int> arr = {12, 3, 5, 7, 19};
+
+    cout << "Original Array: ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+
+    int median = findMedianPartially(arr);
+
+    cout << "The Median is: " << median << endl;
+    
+    cout << "Array after partial sort: ";
+    for(int x : arr) cout << x << " "; 
+    // Notice only the first half is necessarily sorted
+    cout << endl;
+
+    return 0;
+}
