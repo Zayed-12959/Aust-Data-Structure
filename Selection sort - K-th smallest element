@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // For swap
+
+using namespace std;
+
+int findKthSmallest(vector<int>& arr, int k) {
+    int n = arr.size();
+
+    // We only run the outer loop K times
+    for (int i = 0; i < k; i++) {
+        
+        int minIndex = i;
+
+        // Standard Selection Sort inner loop
+        // Find the smallest element in the remaining unsorted part
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        // Swap the found minimum element with the element at position 'i'
+        swap(arr[i], arr[minIndex]);
+    }
+
+    // After K loops, the first K elements are sorted.
+    // The element at index (k-1) is the k-th smallest.
+    return arr[k - 1];
+}
+
+int main() {
+    // Example Input
+    vector<int> arr = {7, 10, 4, 3, 20, 15};
+    int k = 3;
+
+    cout << "Original Array: ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+
+    int result = findKthSmallest(arr, k);
+
+    cout << "The " << k << "-th smallest element is: " << result << endl;
+    
+    // Optional: Print array to see the partial sort
+    cout << "Array after " << k << " passes: ";
+    for(int x : arr) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
