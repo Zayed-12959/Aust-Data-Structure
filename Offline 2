@@ -1,0 +1,111 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Book{
+    string title;
+    string author;
+    int year;
+};
+
+Book extractBookDetails(string line){
+    Book b;
+    int firstComma = -1;
+    int secondComma = -1;
+
+    for(int i=0; i<line.length()-1 ; i++){
+        if(line[i]==','){
+            firstComma = i;
+            break;
+        }
+    }
+
+    for(int i=line.length()-1; i>=0; i--){
+        if(line[i]==','){
+            secondComma = i;
+            break;
+        }
+    }
+
+    b.title = line.substr(0, firstComma); //extract title
+
+    int authorStart = firstComma+2;
+    int authorLength = secondComma-authorStart;
+    b.author = line.substr(authorStart, authorLength); //extract author
+
+    string yearStart = line.substr(secondComma+2);
+    b.year = stoi(yearStart); //extract year
+
+    return b;
+}
+
+void sortBooks(vector<Book> &books){
+    int N = books.size();
+
+    for(int i=0; i<N; i++){
+        int bestIndex = i;
+
+        for(int j=i+1; j<N; j++){
+            bool swappable = false;
+
+            if(books[bestIndex].year < books[j].year){
+                swappable = true; //for descending
+            }
+            else if(books[j].year == books[bestIndex].year){
+                if(books[bestIndex].author > books[j].author){
+                    swappable = true; //for ascending
+                }
+                else if(books[j].author == books[bestIndex].author){
+                    if(books[bestIndex].title > books[j].title){
+                        swappable = true; //for ascending
+                    }
+                }
+            }
+
+            if(swappable){
+                bestIndex = j;
+            }
+        }
+
+        swap(books[i], books[bestIndex]);
+    }
+}
+
+int main(){
+    int N;
+    cin >> N;
+
+    if(N<1 || N>1000) {
+        cout << "Error : N must be within (1 ≤ N ≤ 1000)" << endl;
+        return 0;
+    }
+
+    cin.ignore();
+
+    vector<Book> books;
+    for(int i=0; i<N; i++){
+        string line;
+        getline(cin, line);
+
+        Book b = extractBookDetails(line);
+        bool valid = true;
+        if (b.title.length()<1 || b.title.length()>100) valid = false;
+        if (b.author.length()<1 || b.author.length()>100) valid = false;
+        if (b.year<1900 || b.year>2025) valid = false;
+
+        if(valid){
+            books.push_back(b);
+        }
+        else{
+            cout << "(1 ≤ length of title ≤ 100)" << endl << "(1 ≤ length of author name ≤ 100)" << endl << "(1900 ≤ year ≤ 2025)" << endl;
+        }
+
+    }
+
+    sortBooks(books);
+
+    for(int i=0; i<N; i++){
+        cout << books[i].title << "," << books[i].author << "," << books[i].year << endl;
+    }
+
+    return 0;
+}
