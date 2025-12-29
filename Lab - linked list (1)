@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int data;
+    node *next;
+};
+
+node *root = NULL;
+
+void Printing(){
+    node *curr = root;
+    while(curr!=NULL){
+        cout << curr -> data << " ";
+        curr = curr -> next;
+    }
+    cout << endl;
+}
+
+void Searching(int val){
+    node *curr = root;
+    int f = 0;
+    while(curr!=NULL){
+        if(curr -> data == val){
+            f = 1;
+            cout << "Found" << endl;
+            break;
+        }
+        curr = curr -> next;
+    }
+    if(f==0){
+        cout << "Not Found" << endl;
+    }
+}
+
+void PrintFirst(){
+    cout << root -> data << endl;
+}
+
+void PrintLast(){
+    node *curr = root;
+    while(curr -> next != NULL){
+        curr = curr -> next;
+    }
+    cout << curr -> data << endl;
+}
+
+void PrintSecLast(){
+    node *curr = root;
+    node *prev = root;
+    while(curr -> next!=NULL){
+        prev = curr;
+        curr = curr -> next;
+    }
+    cout << prev -> data << endl;
+}
+
+void PrintReverse(node *temp){
+    if(temp != NULL){
+        PrintReverse(temp -> next);
+        cout << temp -> data << " ";
+    }
+}
+
+
+
+int main(){
+    node *p, *q, *r;
+    p = new node();
+    q = new node();
+    r = new node();
+
+    p -> data = 10;
+    q -> data = 20;
+    r -> data = 30;
+
+    p -> next = q;
+    q -> next = r;
+    r -> next = NULL;
+
+    root = p;
+
+    Printing();
+    Searching(20);
+    Searching(50);
+    PrintFirst();
+    PrintLast();
+    PrintSecLast();
+    PrintReverse(root);
+
+    return 0;
+}
