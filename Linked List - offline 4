@@ -1,0 +1,329 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node{
+    int data;
+    node *next;
+};
+
+node *root = NULL;
+
+int ListSize(){
+    node *curr = root;
+    int count = 0;
+
+    while(curr != NULL){
+        count++;
+        curr = curr->next;
+    }
+    return count;
+}
+
+void InsFirst(int val){
+    node *temp = new node();
+    temp->data = val;
+    temp->next = root;
+    root = temp;
+    cout << "Inserted " << val << " at first. " << endl;
+}
+
+void InsLast(int val){
+    node *temp = new node();
+    temp->data = val;
+    temp->next = NULL;
+
+    if(root==NULL){
+        root = temp;
+    }
+    else{
+        node *curr = root;
+        while(curr->next!=NULL){
+            curr = curr->next;
+        }
+        curr->next = temp;
+    }
+    cout << "Inserted " << val << " at last. " << endl;
+}
+
+void InsAtPos(int val, int pos){
+    if(pos<0 || pos>ListSize()){
+        cout << "Invalid position" << endl;
+        return;
+    }
+    if(pos==0){
+        InsFirst(val);
+    }
+    else{
+        node *temp = new node();
+        temp->data = val;
+
+        node *curr = root;
+
+
+        for(int i=0; i<pos-1; i++){
+            curr = curr->next;
+        }
+
+        temp->next = curr->next;
+        curr->next = temp;
+
+        cout << "Inserted " << val << " at position " << pos << endl;
+    }
+}
+
+void InsByValue(int newVal, int targetVal){
+    if(root == NULL){
+        cout << "List is empty, cannot find target value" << endl;
+        return;
+    }
+
+    node *curr = root;
+
+    while(curr != NULL && curr->data != targetVal){
+        curr = curr->next;
+    }
+
+    if(curr == NULL){
+        cout << "Target value " << targetVal << " not found." << endl;
+    }
+    else{
+        node *temp = new node();
+        temp->data = newVal;
+
+        temp->next = curr->next;
+        curr->next = temp;
+
+        cout << "Inserted " << newVal << " after " << targetVal << "." << endl;
+    }
+}
+
+void DelFirst(){
+    if(root == NULL){
+        cout << "List is empty" << endl;
+        return;
+    }
+
+    node *temp = root;
+    root = root->next;
+
+    cout << "Deleted first node." << endl;
+}
+
+void DelLast(){
+    if(root == NULL){
+        cout << "List is empty." << endl;
+        return;
+    }
+
+    if(root->next == NULL){
+        root = NULL;
+    }
+    else{
+        node *curr = root;
+        node *prev = NULL;
+
+        while(curr->next != NULL){
+            prev = curr;
+            curr = curr->next;
+        }
+
+        prev->next = NULL;
+    }
+    cout << "Deleted last node." << endl;
+}
+
+void DelAtPos(int pos){
+    if(root == NULL || pos < 0 || pos > ListSize()-1){
+        cout << "Invalid Position or Empty List!" << endl;
+        return;
+    }
+
+    if(pos == 0){
+        DelFirst();
+    }
+    else{
+        node *curr = root;
+        node *prev = NULL;
+
+        for(int i=0; i<pos; i++){
+            prev = curr;
+            curr = curr->next;
+        }
+
+        prev->next = curr->next;
+
+        cout << "Deleted node at position " << pos << "." << endl;
+    }
+}
+
+void DelByValue(int val){
+    if(root == NULL){
+        cout << "List is empty." << endl;
+        return;
+    }
+
+    if(root->data == val){
+        DelFirst();
+        return;
+    }
+
+    node *curr = root;
+    node *prev = NULL;
+
+    while(curr != NULL && curr->data != val){
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if(curr == NULL){
+        cout << "Value not found" << endl;
+    }
+    else{
+        prev->next = curr->next;
+
+        cout << "Deleted value " << val << "." << endl;
+    }
+}
+
+void Printing(){
+    if(root == NULL){
+        cout << "List is empty." << endl;
+        return;
+    }
+
+    node *curr = root;
+    while(curr != NULL){
+        cout << curr->data << " ";
+        curr = curr->next;
+    }
+    cout << endl;
+}
+
+void Searching(int val){
+    node *curr = root;
+    int pos = 0;
+    bool found = false;
+
+    while(curr != NULL){
+        if(curr->data == val){
+            found = true;
+            cout << "Found " << val << " at position " << pos << endl;
+            break;
+        }
+
+        curr = curr->next;
+        pos++;
+    }
+    if(!found){
+        cout << "Not Found" << endl;
+    }
+}
+
+void PrintLast(){
+    if(root == NULL){
+        cout << "List is empty." << endl;
+        return;
+    }
+    node *curr = root;
+    while (curr->next != NULL) {
+        curr = curr->next;
+    }
+    cout << "Last Node: " << curr->data << endl;
+}
+
+
+void PrintSecLast(){
+    if(root == NULL || root->next == NULL){
+        cout << "List needs at least 2 nodes" << endl;
+        return;
+    }
+
+    node *curr = root;
+    node *prev = NULL;
+
+    while(curr->next != NULL){
+        prev = curr;
+        curr = curr->next;
+    }
+
+    cout << "Previous of last node: " << prev->data << endl;
+}
+
+
+void ReversePrint(node *temp){
+    if(temp != NULL){
+        ReversePrint(temp -> next);
+        cout << temp -> data << " ";
+    }
+}
+
+int main() {
+    int choice, val, pos, target;
+
+    while (true) {
+        cout << "\n--- Linked List Operations ---" << endl;
+        cout << "1. Insert First" << endl;
+        cout << "2. Insert Last" << endl;
+        cout << "3. Insert At Position" << endl;
+        cout << "4. Insert By Value (Insert AFTER target)" << endl;
+        cout << "5. Delete First" << endl;
+        cout << "6. Delete Last" << endl;
+        cout << "7. Delete At Position" << endl;
+        cout << "8. Delete By Value" << endl;
+        cout << "9. Print List" << endl;
+        cout << "10. Search Value" << endl;
+        cout << "11. Print Last Node" << endl;
+        cout << "12. Print Previous of Last" << endl;
+        cout << "13. Print List Size" << endl;
+        cout << "14. Reverse Print" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Enter Choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value: "; cin >> val;
+                InsFirst(val); break;
+            case 2:
+                cout << "Enter value: "; cin >> val;
+                InsLast(val); break;
+            case 3:
+                cout << "Enter value: "; cin >> val;
+                cout << "Enter position: "; cin >> pos;
+                InsAtPos(val, pos); break;
+            case 4:
+                cout << "Enter new value to insert: "; cin >> val;
+                cout << "Enter target value to insert after: "; cin >> target;
+                InsByValue(val, target);
+                break;
+            case 5:
+                DelFirst(); break;
+            case 6:
+                DelLast(); break;
+            case 7:
+                cout << "Enter position to delete: "; cin >> pos;
+                DelAtPos(pos); break;
+            case 8:
+                cout << "Enter value to delete: "; cin >> val;
+                DelByValue(val); break;
+            case 9:
+                Printing(); break;
+            case 10:
+                cout << "Enter value to search: "; cin >> val;
+                Searching(val); break;
+            case 11:
+                PrintLast(); break;
+            case 12:
+                PrintSecLast(); break;
+            case 13:
+                cout << "Size: " << ListSize() << endl; break;
+            case 14:
+                ReversePrint(root); break;
+            case 0:
+                exit(0);
+            default:
+                cout << "Invalid choice" << endl;
+        }
+    }
+    return 0;
+}
