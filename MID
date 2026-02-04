@@ -1,0 +1,96 @@
+//Linear Search
+Best case = O(1);
+Average case = O(n/2);
+Worst case = O(n);
+
+void linear_search(int arr[], int n, int item){
+    for(int i=0; i<n; i++){
+        if(arr[i]==item){
+            printf("Element found at position, %d", i);
+            return;
+        }
+    }
+    printf("Element not found");
+}
+
+//Binary Search
+Best case: O(1);
+Average case: O(logn);
+Worst case: O(logn);
+Space Complexity: O(1);
+
+void binary_search(int arr[], int n, int item){
+    int low = 0;
+    int high = n-1;
+
+    while (low<=high){
+        int mid = (low+high)/2;
+        if(arr[mid]==item){
+            printf("Element found at position, %d", mid);
+            return;
+        }
+        else if(arr[mid]>item){
+            high = mid-1;
+        }
+        else{
+            low = mid+1;
+        }
+    }
+    printf("Element not found");
+}
+
+//Bubble Sort
+Best case: O(n^2);
+Average case: O(n^2);
+Worst case: O(n^2);
+Space Complexity: O(1);
+
+
+void bubble_sort(vector<int> &arr){
+    int n = arr.size();
+    for(int i=0; i<n-1; i++){
+        for(int j=0; j<n-1-i; j++){
+            if(arr[j]>arr[j+1]){
+                swap(arr[j], arr[j+1]);
+            }
+        }
+    }
+}
+
+//Selection sort
+Best case: O(n^2);
+Average case: O(n^2);
+Worst case: O(n^2);
+Space Complexity: O(1);
+
+void selection_sort(vector<int> &arr){
+    int n = arr.size();
+    for(int i=0; i<n-1; i++){
+        int minIndex = i;
+        for(int j=i+1; j<n; j++){
+            if(arr[j]<arr[minIndex]){
+                minIndex = j;
+            }
+        }
+        swap(arr[i], arr[minIndex]);
+    }
+}
+
+//Insertion Sort
+Best case: O(n);
+Average case: O(n^2);
+Worst case: O(n^2);
+Space Complexity: O(1);
+
+void insertion_sort(vector<int> &arr){
+    int n = arr.size();
+    for(int i=0; i<n; i++){
+        int key = arr[i];
+        int j = i-1;
+        while(j>=0 && arr[j]>key){
+            arr[j+1] = arr[j];
+            j=j-1;
+        }
+        arr[j+1] = key;
+    }
+}
